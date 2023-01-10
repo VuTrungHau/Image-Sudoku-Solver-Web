@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+<link rel="stylesheet" href="{% static 'sudokuDIP/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="upload-image">
+            <div class="show-image">
+                <img src="{% static 'sudokuDIP/image/empty-image.jpg' %}" alt="">
+            </div>
+            <button class="upload-img-btn">Upload Image</button>
+        </div>
+        <div class="image-process">
+            <span>Ma trận SUDOKU</span>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="name">
+            <h4>Trần Đức Hưng - 51900747</h4>
+            <h4>Vũ Trung Hậu - 51900738</h4>
+            <h4>Nguyễn Hữu Hòa - 51900742</h4>
+        </div>
+    </div>
+</body>
+</html>
