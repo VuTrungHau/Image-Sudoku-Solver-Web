@@ -11,9 +11,20 @@
     <div class="container">
         <div class="upload-image">
             <div class="show-image">
-                <img src="{% static 'sudokuDIP/image/empty-image.jpg' %}" alt="">
+                <img src="{% static 'sudokuDIP/empty-img.jpg' %}" alt="">
+                {% if show_img == 1 %}
+                    <img src="{% static 'sudokuDIP/image/image.jpg' %}" alt="">
+                {% endif %}
+
             </div>
-            <button class="upload-img-btn">Upload Image</button>
+            <!-- <button class="upload-img-btn">Upload Image</button> -->
+            <form method="post" class="upload-img-btn" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" name="myfile" accept="image/*" required/>
+                <!-- {{ form.as_p }} -->
+                <button type="submit" value="Place order" name="submit">Upload</button>
+              </form>
+            <!-- <input type="file" name="image" class="upload-img-btn" accept="image/*"/> -->
         </div>
         <div class="image-process">
             <span>Ma trận SUDOKU</span>

@@ -44,10 +44,11 @@ body {
     text-align: start;
 }
 img {
-    position: relative;
-    width: 300px;
+    position: absolute;
+    width: 350px;
+    height: 265px;
     top: 100px;
-    left: 110px;
+    left: 100px;
 }
 .upload-img-btn {
     position: relative;
