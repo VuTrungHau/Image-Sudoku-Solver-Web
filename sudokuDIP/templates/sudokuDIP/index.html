@@ -47,7 +47,11 @@
             {% else %}
                 {% for row in matrix %}
                     {% for e in row %}
-                        <li><div>{{e}}</div></li>
+                        {% if e == 0 %}
+                            <li><div></div></li>
+                        {% else %}
+                            <li><div>{{e}}</div></li>
+                        {% endif %}
                     {% endfor %}
                 {% endfor %}
             {% endif %}
