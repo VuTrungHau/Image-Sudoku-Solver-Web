@@ -18,16 +18,47 @@
 
             </div>
             <!-- <button class="upload-img-btn">Upload Image</button> -->
-            <form method="post" class="upload-img-btn" enctype="multipart/form-data">
+            {% if show_img == 1 %}
+            <form method="post" class="process-form" enctype="multipart/form-data">
                 {% csrf_token %}
-                <input type="file" name="myfile" accept="image/*" required/>
-                <!-- {{ form.as_p }} -->
-                <button type="submit" value="Place order" name="submit">Upload</button>
-              </form>
+                <input type="file" name="myprocessfile" id="myprocessfile" value="{% static 'sudokuDIP/image/image.jpg' %}" accept="image/*"/>
+
+                <button type="submit" value="Place order" name="submit-process">Create Matrix</button>
+            </form>
+            {% endif %}
+            <form method="post" class="upload-img-form" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label for="myfile">Select Image:</label>
+                <input type="file" name="myfile" id="myfile" accept="image/*" required/>
+
+                <button type="submit" value="Place order" name="submit-upload">Upload</button>
+            </form>
             <!-- <input type="file" name="image" class="upload-img-btn" accept="image/*"/> -->
         </div>
         <div class="image-process">
-            <span>Ma trận SUDOKU</span>
+            <h2>Ma trận SUDOKU</h2>
+            {{matrix}}
+            <ul>
+            {% if matrix == 0 %}
+                {% for i in range %}
+                    {% for j in range %}
+                        <li><div></div></li>
+                    {% endfor %}
+                {% endfor %}
+            {% else %}
+                {% for row in matrix %}
+                    {% for e in row %}
+                        <li><div>{{e}}</div></li>
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
+            </ul>
+            {% if show_matrix == 1 %}
+            <form method="post" class="solver-matrix" enctype="multipart/form-data">
+                {% csrf_token %}
+                <button type="submit" value="Place order" name="submit-solver">Solve Sudoku</button>
+            </form>
+            {% endif %}
         </div>
     </div>
     <div class="footer">

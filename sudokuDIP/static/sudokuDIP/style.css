@@ -48,15 +48,47 @@ img {
     width: 350px;
     height: 265px;
     top: 100px;
-    left: 100px;
-}
-.upload-img-btn {
-    position: relative;
-    width: 120px;
-    left: 40%;
-    top: 85%;
+    left: 86px;
 }
 
+.process-form {
+    position: absolute;
+    left: 40%;
+    top: 70%;
+}
+
+.process-form input {
+    display: none;
+}
+
+.process-form button {
+    background-color: rgb(16, 144, 57);
+    height: 26px;
+    font-size: 14px;
+    padding: 0 6px;
+    border-radius: 5px;
+}
+
+.upload-img-form {
+    position: relative;
+    width: 120px;
+    left: 86px;
+    top: 80%;
+}
+
+.upload-img-form input {
+    position: absolute;
+}
+
+.upload-img-form button {
+    margin-top: 20px;
+    margin-left: 136px;
+    background-color: rgb(103, 142, 241);
+    height: 30px;
+    font-size: 16px;
+    padding: 0 10px;
+    border-radius: 5px;
+}
 .footer {
     position: fixed;
     left: 0;
@@ -66,4 +98,42 @@ img {
     color: white;
     text-align: center;
     background-color: rgb(3, 44, 45);
+}
+h2 {
+    margin: 0;
+    padding: 6px;
+}
+ul{
+    width: 432px;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    border:3px solid rgb(24, 11, 88);
+    position: absolute;
+    left: 26%;
+    top: 8%;
+}
+li{
+    float: left;
+    display: inline-table;
+}
+li div {
+    border: 1px solid rgb(51, 51, 51);
+    /* box-sizing: border-box; */
+    text-align: center;
+    line-height: 46px;
+    height: 46px;
+    width: 46px;
+    font-size: 24px;
+}
+
+.solver-matrix button{
+    position: absolute;
+    top: 90%;
+    left: 44%;
+    background-color: rgb(51, 208, 101);
+    height: 30px;
+    font-size: 16px;
+    padding: 0 10px;
+    border-radius: 5px;
 }
