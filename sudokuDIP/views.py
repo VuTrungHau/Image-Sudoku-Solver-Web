@@ -11,7 +11,7 @@ from .SudokuSolver import SudokuSolver
 def index(request):
     show_img = 0
     show_matrix = 0
-    matrix = 0
+    matrix = [[0 for i in range(0,9)] for j in range(0,9)]
     if 'submit-upload' in request.POST:
         if request.method == 'POST' and request.FILES['myfile']:
             print('vao post')
@@ -47,7 +47,7 @@ def index(request):
         show_img = 1
         objSolve = SudokuSolver(matrix)
         if objSolve.solveSudoku(0,0):
-            matrix = objSolve
+            matrix = objSolve.grid
     
     if show_img == 0:
         fs_empty = FileSystemStorage()
