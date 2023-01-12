@@ -12,6 +12,7 @@ def index(request):
     show_img = 0
     show_matrix = 0
     matrix = [[0 for i in range(0,9)] for j in range(0,9)]
+
     if 'submit-upload' in request.POST:
         if request.method == 'POST' and request.FILES['myfile']:
             print('vao post')
@@ -24,6 +25,7 @@ def index(request):
     if 'submit-process' in request.POST:
         show_img = 1
         show_matrix = 1
+
         matrix = [[3, 0, 6, 5, 0, 8, 4, 0, 0],
                     [5, 2, 0, 0, 0, 0, 0, 0, 0],
                     [0, 8, 7, 0, 0, 0, 0, 3, 1],
@@ -33,18 +35,20 @@ def index(request):
                     [1, 3, 0, 0, 0, 0, 2, 5, 0],
                     [0, 0, 0, 0, 0, 0, 0, 7, 4],
                     [0, 0, 5, 2, 0, 6, 3, 0, 0]]
-    # if request.method == "POST":
-    #     form=UploadForm(data=request.POST,files=request.FILES)
-    #     if form.is_valid():
-    #         form.save()
-    #         obj=form.instance
-    #         return
-    #     else:
-    #         form=UploadForm()
-    #     img=Image.objects.all()
+        
     
     if 'submit-solver' in request.POST:
         show_img = 1
+        show_matrix = 1
+        data = request.POST.dict()
+        txt = data.get("submit-solver")
+        # matrix = txt
+        txt = txt.replace('[', '').replace(',','').replace(']', '')
+
+        numList = txt.split()
+        numList = [int(i) for i in numList]
+        matrix = [numList[i:i+9] for i in range(0, len(numList), 9)]
+
         objSolve = SudokuSolver(matrix)
         if objSolve.solveSudoku(0,0):
             matrix = objSolve.grid
@@ -60,5 +64,4 @@ def index(request):
         'matrix': matrix,
         'range': range(9),
     }
-    # img=Image.objects.all()
     return HttpResponse(template.render(context, request))

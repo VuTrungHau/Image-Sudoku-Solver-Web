@@ -37,9 +37,8 @@
         </div>
         <div class="image-process">
             <h2>Ma trận SUDOKU</h2>
-            {{matrix}}
             <ul>
-            {% if matrix == 0 %}
+            {% if show_matrix == 0 %}
                 {% for i in range %}
                     {% for j in range %}
                         <li><div></div></li>
@@ -56,7 +55,7 @@
             {% if show_matrix == 1 %}
             <form method="post" class="solver-matrix" enctype="multipart/form-data">
                 {% csrf_token %}
-                <button type="submit" value="Place order" name="submit-solver">Solve Sudoku</button>
+                <button type="submit" name="submit-solver" value="{{ matrix }} ">Solve Sudoku</button>
             </form>
             {% endif %}
         </div>
