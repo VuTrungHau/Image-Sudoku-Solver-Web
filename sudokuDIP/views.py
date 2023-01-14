@@ -6,7 +6,7 @@ from .FileSystemStorage import MyCustomStorage
 from .forms import UploadForm
 from .models import Image
 from .SudokuSolver import SudokuSolver
-
+from ocr import process
 # Create your views here.
 def index(request):
     show_img = 0
@@ -26,15 +26,11 @@ def index(request):
         show_img = 1
         show_matrix = 1
 
-        matrix = [[3, 0, 6, 5, 0, 8, 4, 0, 0],
-                    [5, 2, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 8, 7, 0, 0, 0, 0, 3, 1],
-                    [0, 0, 3, 0, 1, 0, 0, 8, 0],
-                    [9, 0, 0, 8, 6, 3, 0, 0, 5],
-                    [0, 5, 0, 0, 9, 0, 6, 0, 0],
-                    [1, 3, 0, 0, 0, 0, 2, 5, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 7, 4],
-                    [0, 0, 5, 2, 0, 6, 3, 0, 0]]
+        txt = process('sudokuDIP\static\sudokuDIP\image\image.jpg')
+
+        numList = txt.split()
+        numList = [int(i) for i in numList]
+        matrix = [numList[i:i+9] for i in range(0, len(numList), 9)]
         
     
     if 'submit-solver' in request.POST:
@@ -42,13 +38,11 @@ def index(request):
         show_matrix = 1
         data = request.POST.dict()
         txt = data.get("submit-solver")
-        # matrix = txt
         txt = txt.replace('[', '').replace(',','').replace(']', '')
 
         numList = txt.split()
         numList = [int(i) for i in numList]
         matrix = [numList[i:i+9] for i in range(0, len(numList), 9)]
-
         objSolve = SudokuSolver(matrix)
         if objSolve.solveSudoku(0,0):
             matrix = objSolve.grid
