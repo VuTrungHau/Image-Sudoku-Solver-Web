@@ -4,6 +4,15 @@ import pytesseract
 
 pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 #preprocess
+""" img = cv2.imread('Sudoku.png')
+
+
+print(result)
+numList = result.split()
+numList = [int(i) for i in numList]
+matrix = [numList[i:i+9] for i in range(0, len(numList), 9)]
+print(matrix)
+ """
 def process(image_path):
     img = cv2.imread(image_path)
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -20,6 +29,9 @@ def process(image_path):
     krn = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 3))
     dlt = cv2.dilate(msk, krn, iterations=1)
     thr = 255 - cv2.bitwise_and(dlt, msk)
+
+    # OCR
+    #d = pytesseract.image_to_string(thr, config="--psm 10")
 
     #findContours
     imgcopy = img.copy()
@@ -66,20 +78,20 @@ def process(image_path):
 
     ret, labels, stats,centroids = cv2.connectedComponentsWithStats(~img_bin_final, connectivity=8, ltype=cv2.CV_32S)
 
-
-
     result = ''
+
     for x,y,w,h,area in stats[1:]:
     #     cv2.putText(image,'box',(x-10,y-10),cv2.FONT_HERSHEY_SIMPLEX, 1.0,(0,255,0), 2)
-        if area>100:
-            cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),2)
+        if area>110:
+            #cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),2)
             cropped = img[y:y + h, x:x + w]
+            #cv2_imshow(cropped)
             txt = pytesseract.image_to_string(cropped, config="--psm 6 -c page_separator=''")
+            if txt == '':
+                txt = '0'
         
             numeric_string = "".join(filter(str.isdigit, txt))
-            if numeric_string == '':
-                numeric_string = '0'
             result = result + numeric_string + " "
     return result
 
-print(process('Sudoku.png'))
+#print(process('Sudoku.png'))
