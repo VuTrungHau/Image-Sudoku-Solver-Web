@@ -6,7 +6,8 @@ from .FileSystemStorage import MyCustomStorage
 from .forms import UploadForm
 from .models import Image
 from .SudokuSolver import SudokuSolver
-from ocr import process
+from ocr import process, find_contours
+import cv2
 # Create your views here.
 def index(request):
     show_img = 0
@@ -26,7 +27,12 @@ def index(request):
         show_img = 1
         show_matrix = 1
 
-        txt = process('sudokuDIP\static\sudokuDIP\image\image.jpg')
+        original = cv2.imread('sudokuDIP\static\sudokuDIP\image\image.jpg')
+        gray = cv2.cvtColor(original,cv2.COLOR_BGR2GRAY)
+        gray = cv2.bilateralFilter(gray,20,30,30)
+        edged = cv2.Canny(gray,10,20)
+
+        txt = process(find_contours(edged,original))
 
         numList = txt.split()
         numList = [int(i) for i in numList]
