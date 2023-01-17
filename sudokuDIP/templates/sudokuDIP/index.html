@@ -37,30 +37,37 @@
         </div>
         <div class="image-process">
             <h2>Ma trận SUDOKU</h2>
-            <ul>
-            {% if show_matrix == 0 %}
-                {% for i in range %}
-                    {% for j in range %}
-                        <li><div></div></li>
-                    {% endfor %}
-                {% endfor %}
-            {% else %}
-                {% for row in matrix %}
-                    {% for e in row %}
-                        {% if e == 0 %}
-                            <li><div></div></li>
-                        {% else %}
-                            <li><div>{{e}}</div></li>
-                        {% endif %}
-                    {% endfor %}
-                {% endfor %}
-            {% endif %}
-            </ul>
-            {% if show_matrix == 1 %}
-            <form method="post" class="solver-matrix" enctype="multipart/form-data">
+            <form action="" class="update-matrix" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <button type="submit" name="submit-solver" value="{{ matrix }} ">Solve Sudoku</button>
+                <ul>
+                {% if show_matrix == 0 %}
+                    {% for i in range %}
+                        {% for j in range %}
+                            <li><div></div></li>
+                        {% endfor %}
+                    {% endfor %}
+                {% else %}
+                    {% for row in matrix %}
+                        {% for e in row %}
+                            {% if e == 0 %}
+                                <li><input type="number" name="array[]" value=""></li>
+                            {% else %}
+                                <li><input type="number" name="array[]" value="{{e}}"></li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                {% endif %}
+                </ul>
+                <input type="text" name="update-matrix" value="" style="display: none;" id="update-matrix">
+                {% if show_matrix == 1 %}
+                <button type="submit" name="submit-edit-matrix" onclick="update()">Update Matrix</button>
+                {% endif %}
             </form>
+            {% if show_matrix == 1 %}
+                <form method="post" class="solver-matrix" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <button type="submit" name="submit-solver" value="{{ matrix }} ">Solve Sudoku</button>
+                </form>
             {% endif %}
         </div>
     </div>
@@ -71,5 +78,22 @@
             <h4>Nguyễn Hữu Hòa - 51900742</h4>
         </div>
     </div>
+    <script type="text/javascript">
+        function update() {
+            var input = document.getElementsByName('array[]');
+            const arr = []
+ 
+            for (var i = 0; i < input.length; i++) {
+                var e = input[i];
+                if(e.value == '') {
+                    arr.push(0)
+                }else{
+                    arr.push(e.value)
+                }
+            }
+            document.getElementById("update-matrix").value = arr
+            console.log(arr)
+        }
+    </script>
 </body>
 </html>

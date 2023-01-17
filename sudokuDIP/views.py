@@ -53,6 +53,18 @@ def index(request):
         if objSolve.solveSudoku(0,0):
             matrix = objSolve.grid
     
+    if 'submit-edit-matrix' in request.POST:
+        show_img = 1
+        show_matrix = 1
+        data = request.POST.dict()
+        txt = data.get("update-matrix")
+        # matrix = txt
+        txt = txt.replace(',',' ')
+
+        numList = txt.split()
+        numList = [int(i) for i in numList]
+        matrix = [numList[i:i+9] for i in range(0, len(numList), 9)]
+
     if show_img == 0:
         fs_empty = FileSystemStorage()
         fs_empty.delete('image.jpg')
