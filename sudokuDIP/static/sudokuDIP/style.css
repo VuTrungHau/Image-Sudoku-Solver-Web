@@ -45,10 +45,10 @@ body {
 }
 img {
     position: absolute;
-    width: 350px;
-    height: 265px;
-    top: 100px;
-    left: 86px;
+    width: 310px;
+    height: 310px;
+    top: 50px;
+    left: 106px;
 }
 
 .process-form {
@@ -181,4 +181,12 @@ li:nth-child(46) div, li:nth-child(47) div, li:nth-child(48) div, li:nth-child(4
     padding: 0 10px;
     border-radius: 5px;
 
+}
+
+.infor_update, .err_update{
+    display: none;
+    position: absolute;
+    color: rgb(231, 37, 11);
+    top: 84%;
+    left: 40%;
 }

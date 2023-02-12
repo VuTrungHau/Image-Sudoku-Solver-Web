@@ -36,7 +36,7 @@
             <!-- <input type="file" name="image" class="upload-img-btn" accept="image/*"/> -->
         </div>
         <div class="image-process">
-            <h2>Ma trận SUDOKU</h2>
+            <h2>SUDOKU</h2>
             <form action="" class="update-matrix" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <ul>
@@ -47,18 +47,26 @@
                         {% endfor %}
                     {% endfor %}
                 {% else %}
+                    
+                    <!-- {{show_matrix}} -->
                     {% for row in matrix %}
                         {% for e in row %}
                             {% if e == 0 %}
-                                <li><input type="number" name="array[]" value=""></li>
+                                <li><input type="number" name="array[]" value="" onkeydown="changeFunction()" oninput="inputFunction(this)" maxlength = "1" min = "1" max = "9"></li>
                             {% else %}
-                                <li><input type="number" name="array[]" value="{{e}}"></li>
+                                <li><input type="number" name="array[]" value="{{e}}" onkeydown="changeFunction()" oninput="inputFunction(this)"  maxlength = "1" min = "1" max = "9"></li>
                             {% endif %}
                         {% endfor %}
                     {% endfor %}
                 {% endif %}
                 </ul>
                 <input type="text" name="update-matrix" value="" style="display: none;" id="update-matrix">
+                {% if error_matrix == 1 %}
+                    <span class="err_update" id="err_update" style="display: block;">Something wrong!!!</span>
+                {% else %}
+                    <span class="infor_update" id="infor_update">Press update button to save</span>
+                {% endif %}
+                
                 {% if show_matrix == 1 %}
                 <button type="submit" name="submit-edit-matrix" onclick="update()">Update Matrix</button>
                 {% endif %}
@@ -79,6 +87,22 @@
         </div>
     </div>
     <script type="text/javascript">
+        // document.getElementsByName("array[]").onchange = function() {myFunction()};
+        function changeFunction() {
+            // alert('thay doi');
+            document.getElementById('infor_update').style.display = 'block';
+        }
+
+        function inputFunction(ob) {
+            if (ob.value == 0) {
+                ob.value = -1;
+            }
+            if (ob.value.length > 1) {
+                ob.value = ob.value.slice(0,1);
+            }
+        }
+
+
         function update() {
             var input = document.getElementsByName('array[]');
             const arr = []

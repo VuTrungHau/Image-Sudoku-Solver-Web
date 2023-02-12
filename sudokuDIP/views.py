@@ -12,6 +12,7 @@ import cv2
 def index(request):
     show_img = 0
     show_matrix = 0
+    error_matrix = 0
     matrix = [[0 for i in range(0,9)] for j in range(0,9)]
 
     if 'submit-upload' in request.POST:
@@ -52,6 +53,12 @@ def index(request):
         objSolve = SudokuSolver(matrix)
         if objSolve.solveSudoku(0,0):
             matrix = objSolve.grid
+        else:
+            matrix = [numList[i:i+9] for i in range(0, len(numList), 9)]
+            # print('fsfsdfsd')
+            error_matrix = 1
+            # print(error_update)
+
     
     if 'submit-edit-matrix' in request.POST:
         show_img = 1
@@ -59,6 +66,7 @@ def index(request):
         data = request.POST.dict()
         txt = data.get("update-matrix")
         # matrix = txt
+        # print(txt)
         txt = txt.replace(',',' ')
 
         numList = txt.split()
@@ -73,6 +81,7 @@ def index(request):
     context = {
         'show_img': show_img,
         'show_matrix': show_matrix,
+        'error_matrix': error_matrix,
         'matrix': matrix,
         'range': range(9),
     }
