@@ -63,9 +63,9 @@
                 <input type="text" name="update-matrix" value="" style="display: none;" id="update-matrix">
                 {% if error_matrix == 1 %}
                     <span class="err_update" id="err_update" style="display: block;">Something wrong!!!</span>
-                {% else %}
-                    <span class="infor_update" id="infor_update">Press update button to save</span>
+                    error_matrix = 0
                 {% endif %}
+                <span class="infor_update" id="infor_update">Press update button to save</span>
                 
                 {% if show_matrix == 1 %}
                 <button type="submit" name="submit-edit-matrix" onclick="update()">Update Matrix</button>
@@ -91,6 +91,7 @@
         function changeFunction() {
             // alert('thay doi');
             document.getElementById('infor_update').style.display = 'block';
+            document.getElementById('err_update').style.display = 'none';
         }
 
         function inputFunction(ob) {

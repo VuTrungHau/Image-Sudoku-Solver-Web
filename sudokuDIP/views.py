@@ -6,7 +6,7 @@ from .FileSystemStorage import MyCustomStorage
 from .forms import UploadForm
 from .models import Image
 from .SudokuSolver import SudokuSolver
-from ocr import process, find_contours
+from ocr import *
 import cv2
 # Create your views here.
 def index(request):
@@ -34,6 +34,12 @@ def index(request):
         edged = cv2.Canny(gray,10,20)
 
         txt = process(find_contours(edged,original))
+
+        # biggest_cnt = find_biggestcnt(original)
+        # img_warped = warp_img(original,biggest_cnt)
+        # img_warped_bin = warpImg_processing(img_warped)
+        # cell_detected = detect_cell(img_warped_bin)
+        # txt = detect_num(cell_detected,img_warped)
 
         numList = txt.split()
         numList = [int(i) for i in numList]

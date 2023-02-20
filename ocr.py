@@ -1,6 +1,14 @@
 import cv2
 import numpy as np
 import pytesseract
+from numpy.linalg import norm
+
+def brightness(img):
+    if len(img.shape) == 3:
+        return np.average(norm(img, axis=2)) / np.sqrt(3)
+    else:
+        # Grayscale
+        return np.average(img)
 
 pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 
@@ -19,8 +27,6 @@ def find_contours(img, original):
             if area > max_area and len(approx) == 4:
                 biggest = approx
                 max_area = area
-
-    #cv2.drawContours(imgcopy, [biggest], -1, (0, 0, 255), 3)
     # findCorners
     if len(biggest) > 1:
         points = biggest.reshape(4,2)
@@ -73,7 +79,7 @@ def process(img):
     #cv2.imshow("f",img_bin_final)
     
     
-    ret, labels, stats,centroids = cv2.connectedComponentsWithStats(~img_bin_final, connectivity=8, ltype=cv2.CV_32S)
+    # ret, labels, stats,centroids = cv2.connectedComponentsWithStats(~img_bin_final, connectivity=8, ltype=cv2.CV_32S)
     
     i=np.array([[2,2,24,24,576]
                 ,[31,2,22,24,528]
@@ -159,20 +165,25 @@ def process(img):
     
     result = ''
     for x,y,w,h,area in i:
-    #     cv2.putText(image,'box',(x-10,y-10),cv2.FONT_HERSHEY_SIMPLEX, 1.0,(0,255,0), 2)
         if area>110:
-            #cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),2)
             cropped = img[y:y + h, x:x + w]
             cropped = cv2.cvtColor(cropped,cv2.COLOR_BGR2GRAY)
-            ret, cropped = cv2.threshold(cropped,130,255,cv2.THRESH_BINARY)
+            brn = brightness(cropped)
+            if(brn>130):
+                brn = 130
+            else:
+                brn = 55
+            ret, cropped = cv2.threshold(cropped,brn,255,cv2.THRESH_BINARY)
             #cv2_imshow(cropped)
             txt = pytesseract.image_to_string(cropped, config="--psm 6 -c tessedit_char_whitelist=0123456789")# page_separator=''")
             #txt = pytesseract.image_to_string(cropped, config="digits")
             
-            print(txt)
+            # print(txt)
             numeric_string = "".join(filter(str.isdigit, txt))
             if numeric_string == '':
                 numeric_string = '0'
+            if len(numeric_string) > 1:
+                numeric_string = numeric_string[-1]
             result = result + numeric_string + " "
     #cv2_imshow(img)
     return result
